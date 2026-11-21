@@ -2,13 +2,21 @@ require('dotenv').config();
 process.env.TZ = process.env.TZ || 'Europe/Paris';
 const fs = require('fs');
 const path = require('path');
-const { Client, GatewayIntentBits, Collection, EmbedBuilder, Events, MessageFlags } = require('discord.js');
+const { Client, GatewayIntentBits, Partials, Collection, EmbedBuilder, Events, MessageFlags } = require('discord.js');
 const config = require('./config');
 const { data, save } = require('./db');
 const { isCoach, ts } = require('./utils');
 
-const client = new Client({ intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages] });
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds, GatewayIntentBits.GuildMembers, GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent, GatewayIntentBits.GuildVoiceStates,
+    GatewayIntentBits.GuildModeration, GatewayIntentBits.GuildInvites,
+  ],
+  partials: [Partials.Message, Partials.Channel, Partials.GuildMember, Partials.User],
+});
 client.commands = new Collection();
+require('./logger')(client); // système de logs complet
 
 for (const file of fs.readdirSync(path.join(__dirname, 'commands')).filter((f) => f.endsWith('.js'))) {
   for (const cmd of [].concat(require(`./commands/${file}`))) client.commands.set(cmd.data.name, cmd);
