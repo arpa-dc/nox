@@ -4,11 +4,21 @@ const config = require('../config');
 const { data, save } = require('../db');
 const { parseDate, ts } = require('../utils');
 
+const OFFERS = [
+  { id: '15',  name: '15 minutes', price: '2,99 €' },
+  { id: '30',  name: '30 minutes', price: '4,99 €' },
+  { id: '60',  name: '1 heure',    price: '7,99 €' },
+  { id: '90',  name: '1h30',       price: '12,99 €', detail: '45 min + 15 min de pause + 45 min' },
+  { id: '120', name: '2 heures',   price: '16,99 €', detail: '1h + 15 min de pause + 1h' },
+  { id: '150', name: '2h30',       price: '21,99 €', detail: '1h15 + 15 min de pause + 1h15' },
+  { id: '180', name: '3 heures',   price: '25,99 €', detail: '1h30 + 15 min de pause + 1h30' },
+];
+
 module.exports = {
   category: 'Coaching',
   data: new SlashCommandBuilder().setName('reserver').setDescription('Réserver une séance de coaching')
     .addStringOption((o) => o.setName('offre').setDescription('Ton offre').setRequired(true)
-      .addChoices(...config.offers.map((x) => ({ name: x.name, value: x.id }))))
+      .addChoices(...OFFERS.map((x) => ({ name: `${x.name} — ${x.price}`, value: x.id }))))
     .addStringOption((o) => o.setName('date').setDescription('Format : JJ/MM/AAAA HH:mm (ex: 25/12/2026 14:30)').setRequired(true))
     .addStringOption((o) => o.setName('note').setDescription('Ton objectif / précisions')),
 
@@ -17,7 +27,7 @@ module.exports = {
     if (!date || date.getTime() < Date.now())
       return i.reply({ content: '❌ Date invalide ou passée. Format : `JJ/MM/AAAA HH:mm`', flags: MessageFlags.Ephemeral });
 
-    const offer = config.offers.find((o) => o.id === i.options.getString('offre'));
+    const offer = OFFERS.find((o) => o.id === i.options.getString('offre'));
     const note = i.options.getString('note') || 'Aucune';
     const clash = data.bookings.find((b) => b.status !== 'cancelled' && Math.abs(b.date - date.getTime()) < 3600000);
     if (clash)
@@ -52,6 +62,7 @@ module.exports = {
       .addFields(
         { name: 'Client', value: `${i.user}`, inline: true },
         { name: 'Offre', value: `${offer.name} (${offer.price})`, inline: true },
+        ...(offer.detail ? [{ name: 'Déroulé', value: offer.detail }] : []),
         { name: 'Date', value: `${ts(booking.date)} (${ts(booking.date, 'R')})` },
         { name: 'Note', value: note },
         { name: 'Statut', value: '⏳ En attente de confirmation' },
