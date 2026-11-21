@@ -30,7 +30,7 @@ const ts = (ms, style = 'F') => `<t:${Math.floor(ms / 1000)}:${style}>`;
 
 // Journal de modération (salon LOG_CHANNEL_ID, optionnel)
 async function modlog(guild, embed) {
-  const ch = process.env.LOG_CHANNEL_ID && guild.channels.cache.get(process.env.LOG_CHANNEL_ID);
+  const ch = guild.channels.cache.get(config.logChannelId || process.env.LOG_CHANNEL_ID);
   if (ch) await ch.send({ embeds: [embed] }).catch(() => {});
 }
 
