@@ -23,11 +23,11 @@ async function guard(i, perm, user, member, botOk = true) {
 }
 
 const logEmbed = (title, i, user, reason, extra = []) =>
-  new EmbedBuilder().setColor(0xed4245).setTitle(title).setTimestamp()
+  new EmbedBuilder().setColor(0xffffff).setTitle(title).setTimestamp()
     .addFields({ name: 'Membre', value: `${user} (${user.id})`, inline: true },
       { name: 'Modérateur', value: `${i.user}`, inline: true }, ...extra, { name: 'Raison', value: reason });
 
-const ok = (i, text) => i.reply({ embeds: [new EmbedBuilder().setColor(0x57f287).setDescription(text)] });
+const ok = (i, text) => i.reply({ embeds: [new EmbedBuilder().setColor(0xffffff).setDescription(text)] });
 
 const cmds = [
   {
@@ -124,7 +124,7 @@ const cmds = [
       const user = i.options.getUser('utilisateur');
       const list = data.warns.filter((w) => w.userId === user.id);
       const txt = list.map((w) => `**#${w.id}** · ${ts(w.date, 'd')} · <@${w.modId}> · ${w.reason}`).join('\n').slice(0, 4000) || 'Aucun avertissement.';
-      i.reply({ ...EPH, embeds: [new EmbedBuilder().setColor(0xfee75c).setTitle(`⚠️ Avertissements de ${user.tag} (${list.length})`).setDescription(txt)] });
+      i.reply({ ...EPH, embeds: [new EmbedBuilder().setColor(0xffffff).setTitle(`⚠️ Avertissements de ${user.tag} (${list.length})`).setDescription(txt)] });
     },
   },
   {
