@@ -11,8 +11,8 @@ module.exports = {
   // Récompenses de niveau : { niveau: 'ID du rôle' }
   levelRewards: { 25: '1573066612645437570' },
   ownerIds: ['1231989333029027932', '1516504186014142495'],
-  brandName: 'Mon Coaching',
-  color: 0x5865f2,
+  brandName: 'NOX | Coaching',
+  color: 0xffffff,
   offers: [
     { id: 'decouverte', name: 'Séance découverte', price: '0 €', duration: '30 min', desc: 'Premier échange pour définir tes objectifs.' },
     { id: 'solo', name: 'Séance individuelle', price: '60 €', duration: '1 h', desc: 'Coaching 1-to-1 personnalisé.' },
@@ -25,5 +25,5 @@ module.exports = {
     { q: 'Puis-je annuler ou déplacer ?', a: 'Oui, jusqu\'à 24 h avant avec `/rdv annuler`.' },
   ],
   welcomeMessage: (member) =>
-    `Bienvenue ${member} ! 👋 Tape \`/services\` pour découvrir mes offres et \`/reserver\` pour prendre rendez-vous.`,
+    `Bienvenue ${member} sur **NOX | Coaching** ! Lis le <#1573062004212637706>, profite bien !`,
 };
