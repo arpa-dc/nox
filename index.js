@@ -17,6 +17,7 @@ for (const file of fs.readdirSync(path.join(__dirname, 'commands')).filter((f) =
 client.once(Events.ClientReady, async (c) => {
   console.log(`✅ Connecté en tant que ${c.user.tag}`);
   client.commands.get('statutbot')?.apply(c); // réapplique le dernier statut
+  setInterval(() => client.commands.get('giveaway')?.tick(client).catch((e) => console.error('giveaway:', e)), 15 * 1000);
   try {
     const body = client.commands.map((cmd) => cmd.data.toJSON());
     const route = process.env.GUILD_ID
@@ -43,6 +44,8 @@ client.once(Events.ClientReady, async (c) => {
 });
 
 client.on(Events.GuildMemberAdd, async (member) => {
+  member.roles.add(config.joinRoleId, 'Rôle automatique à l\'arrivée')
+    .catch(() => console.warn('Impossible de donner le rôle d\'arrivée (rôle du bot trop bas ?)'));
   const ch = await member.guild.channels.fetch(config.welcomeChannelId).catch(() => null);
   if (!ch) return;
   const embed = new EmbedBuilder()
@@ -64,6 +67,7 @@ client.on(Events.InteractionCreate, async (i) => {
       const name = i.customId.split(':')[0];
       return await client.commands.get(name)?.modal?.(i);
     }
+    if (i.isButton() && i.customId.startsWith('gw_enter:')) return await client.commands.get('giveaway').enter(i);
     if (i.isButton() && i.customId === 'close_ticket') {
       const owner = i.channel.topic === i.user.id;
       if (!isCoach(i.member) && !owner)
