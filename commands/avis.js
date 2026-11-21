@@ -25,7 +25,7 @@ module.exports = {
 
     const note = i.options.getInteger('note');
     const embed = new EmbedBuilder()
-      .setColor(0xfee75c)
+      .setColor(0xffffff)
       .setAuthor({ name: i.member.displayName, iconURL: i.member.displayAvatarURL() })
       .setTitle('⭐'.repeat(note))
       .setDescription(i.options.getString('commentaire'))
