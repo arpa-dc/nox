@@ -4,6 +4,10 @@ module.exports = {
   // Rôle client autorisé à poster un avis + salon où les avis sont publiés
   clientRoleId: '1573066640428630087',
   reviewsChannelId: '1573071048038031440',
+  // Salon des logs (tout y est journalisé)
+  logChannelId: '1572539311461761097',
+  // true = log aussi CHAQUE message envoyé (mettre false pour ne logger que modifs/suppressions)
+  logSentMessages: true,
   // Rôle donné automatiquement à l'arrivée d'un membre
   joinRoleId: '1572625273499942983',
   // Salon où le message de bienvenue est envoyé
