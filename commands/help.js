@@ -2,8 +2,8 @@ const { SlashCommandBuilder, EmbedBuilder, MessageFlags } = require('discord.js'
 const config = require('../config');
 const { isOwner } = require('../utils');
 
-const ORDER = ['Coaching', 'Niveaux', 'Modération', 'Utilitaire', 'Admin', 'Autres'];
-const ICON = { Coaching: '💼', Niveaux: '📈', Modération: '🛡️', Utilitaire: '🧰', Admin: '👑', Autres: '📦' };
+const ORDER = ['Coaching', 'Niveaux', 'Giveaway', 'Modération', 'Utilitaire', 'Admin', 'Autres'];
+const ICON = { Coaching: '💼', Niveaux: '📈', Giveaway: '🎁', Modération: '🛡️', Utilitaire: '🧰', Admin: '👑', Autres: '📦' };
 
 module.exports = {
   category: 'Utilitaire',
