@@ -45,7 +45,12 @@ client.once(Events.ClientReady, async (c) => {
 client.on(Events.GuildMemberAdd, async (member) => {
   const ch = await member.guild.channels.fetch(config.welcomeChannelId).catch(() => null);
   if (!ch) return;
-  ch.send({ embeds: [new EmbedBuilder().setColor(config.color).setDescription(config.welcomeMessage(member))] }).catch(() => {});
+  const embed = new EmbedBuilder()
+    .setColor(0xffffff)
+    .setTitle('BIENVENUE')
+    .setDescription(config.welcomeMessage(member))
+    .setThumbnail(member.user.displayAvatarURL({ size: 256 }));
+  ch.send({ embeds: [embed] }).catch(() => {});
 });
 
 client.on(Events.MessageCreate, (msg) => require('./levels').handleMessage(msg).catch((e) => console.error('levels:', e)));
